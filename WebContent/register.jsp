@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Edit User</title>
+<title>User Registration</title>
 <!-- ADDING ONLINE SCRIPTS FOR BOOTSTRAP  -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -120,22 +120,12 @@ input[type=date] {
 </head>
 <body>
 	<!-- HEADER -->
-	<header> EDIT USER </header>
+	<header> REGISTER USER </header>
 	<!-- BODY -->
-	<input type="hidden" id="id_edit" value='${user.id}' />
-	<input type="hidden" id="gender_edit" value='${user.gender}' />
-	<input type="hidden" id="english_edit" value='${user.english}' />
-	<input type="hidden" id="telugu_edit" value='${user.telugu}' />
-	<input type="hidden" id="tamil_edit" value='${user.tamil}' />
-	<input type="hidden" id="district_edit" value='${user.district}' />
-	<input type="hidden" id="mandal_edit" value='${user.mandal}' />
-	<input type="hidden" id="village_edit" value='${user.village}' />
-
 	<div class="grid-container">
 		<div>
 			<label for="Name">Name(Up-to 50chars)<font color="red">*</font></label><br>
-			<input type="text" id="u_name" name="u_name" maxlength="50"
-				value='${user.name}'>
+			<input type="text" id="u_name" name="u_name" maxlength="50">
 		</div>
 		<div>
 			<label for="Gender">Choose Gender<font color="red">*</font>
@@ -153,16 +143,16 @@ input[type=date] {
 		<div>
 			<label for="Aadhar">Aadhar(Mandatory for Male)</label><br> <input
 				type="tel" id="aadhar" name="aathar" placeholder="123456789012"
-				pattern="[0-9]{12}" maxlength="12" value='${user.aadhar}'>
+				pattern="[0-9]{12}" maxlength="12">
 		</div>
 		<div>
 			<label for="Mobile">Mobile Number<font color="red">*</font></label><br>
 			<input type="tel" id="mobile" name="mobile" placeholder="6379535469"
-				pattern="[6-9]{1}[0-9]{9}" maxlength="10" value='${user.mobile}'>
+				pattern="[6-9]{1}[0-9]{9}" maxlength="10">
 		</div>
 		<div>
 			<label for="Email">Email<font color="red">*</font></label><br> <input
-				type="email" id="email" name="email" value='${user.email}'>
+				type="email" id="email" name="email">
 		</div>
 		<div>
 			<label for="District">Select District<font color="red">*</font></label><br>
@@ -185,7 +175,7 @@ input[type=date] {
 		<div>
 			<label for="DOB">Date of Birth<font color="red">*</font></label><br>
 			<input type="date" id="dob" name="dob" min="1960-01-01"
-				max="2022-02-28" value='${user.dob}'>
+				max="2022-02-28">
 		</div>
 		<div>
 			<br> <input type="submit" id="submit" value="Submit Form">
@@ -193,41 +183,12 @@ input[type=date] {
 	</div>
 	<!-- FOOTER -->
 	<div class="footer">@nic.gov.in</div>
+	<!-- 									SCRIPT START HERE....										 -->
 	<script type="text/javascript">
 		/* AJAX PAGE READY(LOAD) STATE FUNCTION*/
 		$(document)
 				.ready(
 						function() {
-							/* SET DATABASE VALUE HERE */
-							//Set Value Here
-							var gender = $('#gender_edit').val();
-							var english = $('#english_edit').val();
-							var telugu = $('#telugu_edit').val();
-							var tamil = $('#tamil_edit').val();
-							var district = $('#district_edit').val();
-							var mandal = $('#mandal_edit').val();
-							var village = $('#village_edit').val();
-
-							//set Radio Button
-							var radio_male = $('#male').val();
-							if (gender == radio_male) {
-								$("#male").prop("checked", true);
-							} else {
-								$("#female").prop("checked", true);
-							}
-							//set Language or checkbox checked
-							var check_eng = $('#english').val();
-							var check_tel = $('#telugu').val();
-							var check_tam = $('#tamil').val();
-
-							if (english == check_eng)
-								$("#english").prop("checked", true);
-							if (telugu == check_tel)
-								$("#telugu").prop("checked", true);
-							if (tamil == check_tam)
-								$("#tamil").prop("checked", true);
-							/* END OF SET VALUE SECTION */
-							/* AJAX DROPDOWN VALUE SECTION & HERE SET DISTRICT, MANDAL, VILLAGE FROM DATABASE */
 							$
 									.ajax({
 										url : "DropDownServlet",
@@ -245,107 +206,6 @@ input[type=date] {
 																+ value.name
 																+ '</option>')
 											});
-											//Set district val here...
-											$('#district').val(district);
-											let tid = $('#district').val();
-											let dataM = {
-												operation : "mandal",
-												id : tid
-											};
-
-											$
-													.ajax({
-														url : "DropDownServlet",
-														method : "GET",
-														data : dataM,
-														success : function(
-																data,
-																textStatus,
-																jqXHR) {
-
-															let obj = $
-																	.parseJSON(data);
-															$
-																	.each(
-																			obj,
-																			function(
-																					key,
-																					value) {
-																				$(
-																						'#mandal')
-																						.append(
-																								'<option value="' + value.id + '">'
-																										+ value.name
-																										+ '</option>')
-																			});
-															//Set mandal value here...
-															$('#mandal').val(
-																	mandal);
-															let sid = $(
-																	'#mandal')
-																	.val();
-															let dataV = {
-																operation : "village",
-																id : sid
-															};
-
-															$
-																	.ajax({
-																		url : "DropDownServlet",
-																		method : "GET",
-																		data : dataV,
-																		success : function(
-																				data,
-																				textStatus,
-																				jqXHR) {
-
-																			let obj = $
-																					.parseJSON(data);
-																			$
-																					.each(
-																							obj,
-																							function(
-																									key,
-																									value) {
-																								$(
-																										'#village')
-																										.append(
-																												'<option value="' + value.id + '">'
-																														+ value.name
-																														+ '</option>')
-																							});
-																			//Set Village value here...
-																			$(
-																					'#village')
-																					.val(
-																							village);
-
-																		},
-																		//Error Village
-																		error : function(
-																				jqXHR,
-																				textStatus,
-																				errorThrown) {
-																			$(
-																					'#village')
-																					.append(
-																							'<option value="">Village Unavailable</option>');
-																		},
-																		cache : false
-																	});
-															//Error Mandal
-
-														},
-														error : function(jqXHR,
-																textStatus,
-																errorThrown) {
-															$('#mandal')
-																	.append(
-																			'<option value="">Mandal Unavailable</option>');
-														},
-														cache : false
-													});
-											//error district
 										},
 										error : function(jqXHR, textStatus,
 												errorThrown) {
@@ -551,93 +411,87 @@ input[type=date] {
 				.click(
 						function() {
 							if (validateForm()) { //Check validation
-								if (confirm("Confirm Update!") == true) {
-									let u_id = $('#id_edit').val();
-									let u_name = $('#u_name').val();
-									let gender = "";
-									let ele = document
-											.getElementsByName('gender');
-									for (i = 0; i < ele.length; i++) {
-										if (ele[i].checked)
-											gender = ele[i].value;
-									}
-									let english = null;
-									let telugu = null;
-									let tamil = null;
-									let l1 = document.getElementById('english').checked;
-									let l2 = document.getElementById('telugu').checked;
-									let l3 = document.getElementById('tamil').checked;
 
-									if (l1)
-										english = document
-												.getElementById('english').value;
-									if (l2)
-										telugu = document
-												.getElementById('telugu').value;
-									if (l3)
-										tamil = document
-												.getElementById('tamil').value;
-									let aadhar = $('#aadhar').val();
-									let mobile = $('#mobile').val();
-									let email = $('#email').val();
-									let district = $('#district').val();
-									let mandal = $('#mandal').val();
-									let village = $('#village').val();
-									let dob = $('#dob').val();
+								let u_name = $('#u_name').val();
+								let gender = "";
+								let ele = document.getElementsByName('gender');
+								for (i = 0; i < ele.length; i++) {
+									if (ele[i].checked)
+										gender = ele[i].value;
+								}
+								let english = null;
+								let telugu = null;
+								let tamil = null;
+								let l1 = document.getElementById('english').checked;
+								let l2 = document.getElementById('telugu').checked;
+								let l3 = document.getElementById('tamil').checked;
 
-									console.log(dob + " : " + gender + " : "
-											+ tamil);
-									console.log(aadhar + " : " + mobile + " : "
-											+ email + " : " + district);
-									let data = {
-										operation : 'update',
-										id : u_id,
-										name : u_name,
-										gender : gender,
-										english : english,
-										telugu : telugu,
-										tamil : tamil,
-										aadhar : aadhar,
-										mobile : mobile,
-										email : email,
-										district : district,
-										mandal : mandal,
-										village : village,
-										dob : dob
-									};
-									var resultData = null;
-									$
-											.ajax({
-												url : "AjaxServlet",
-												method : "POST",
-												data : data,
-												success : function(data,
-														textStatus, jqXHR) {
-													console.log(data);
+								if (l1)
+									english = document
+											.getElementById('english').value;
+								if (l2)
+									telugu = document.getElementById('telugu').value;
+								if (l3)
+									tamil = document.getElementById('tamil').value;
+								let aadhar = $('#aadhar').val();
+								let mobile = $('#mobile').val();
+								let email = $('#email').val();
+								let district = $('#district').val();
+								let mandal = $('#mandal').val();
+								let village = $('#village').val();
+								let dob = $('#dob').val();
 
-													resultData = parseInt(data);
+								console.log(dob + " : " + gender + " : "
+										+ tamil);
+								console.log(aadhar + " : " + mobile + " : "
+										+ email + " : " + district);
+								let data = {
+									operation : 'insert',
+									name : u_name,
+									gender : gender,
+									english : english,
+									telugu : telugu,
+									tamil : tamil,
+									aadhar : aadhar,
+									mobile : mobile,
+									email : email,
+									district : district,
+									mandal : mandal,
+									village : village,
+									dob : dob
+								};
+								var resultData = null;
+								$
+										.ajax({
+											url : "AjaxServlet",
+											method : "POST",
+											data : data,
+											success : function(data,
+													textStatus, jqXHR) {
+												console.log(data);
 
-													console.log("values : "
+												resultData = parseInt(data);
+
+												console.log("values : "
+														+ resultData);
+												if (resultData == 2) {
+													alert("Already registered!...Aadhar is Unique");
+												}
+												if (resultData != 2) {
+													alert("Registered Successfully! your id is : "
 															+ resultData);
-													if (resultData == 2) {
-														alert("Already registered!...Aadhar is Unique");
-													}
-													if (resultData != 2) {
-														alert("Updated Successfully!");
-														window.location
-																.replace("index.jsp");
-													}
+													window.location
+															.replace("index.jsp");
+													window.clearForm();
+												}
 
-												},
-												error : function(jqXHR,
-														textStatus, errorThrown) {
-													console.log("err : "
-															+ jqXHR);
-												},
-												cache : false
-											});
-								} else
-									return false;
+											},
+											error : function(jqXHR, textStatus,
+													errorThrown) {
+												console.log("err : " + jqXHR);
+											},
+											cache : false
+										});
 							}
 						});
 		/* BUTTON EVENT END */
